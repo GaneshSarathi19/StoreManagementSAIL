@@ -31,10 +31,12 @@ const ReportsPage = () => {
     handleFetchReports();
   }, []);
 
-  const handleFetchReports = async () => {
+  const handleFetchReports = () => handleFetchReportsWithParams(filters);
+
+  const handleFetchReportsWithParams = async (currentFilters) => {
     setLoading(true);
     try {
-      const params = { ...filters, type: reportType };
+      const params = { ...currentFilters, type: reportType };
       const res = await axios.get('/api/reports', { params });
       setReports(res.data);
     } catch (err) {
@@ -101,15 +103,39 @@ const ReportsPage = () => {
           </div>
 
           {/* Quick Filters */}
-          <div className="form-group" style={{ flex: '1 1 200px' }}>
-            <label>Quick History</label>
-            <select value={filters.quick_filter} onChange={(e) => applyQuickFilter(e.target.value)}>
-              <option value="">Custom Range</option>
-              <option value="today">Today</option>
-              <option value="6months">Last 6 Months</option>
-              <option value="1year">Last 1 Year</option>
-              <option value="3years">Last 3 Years</option>
-            </select>
+          <div className="form-group" style={{ flex: '1 1 100%' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Clock size={16} /> Quick History Filters
+            </label>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '5px' }}>
+              {[
+                { id: 'today', label: 'Today' },
+                { id: '6months', label: 'Last 6 Months' },
+                { id: '1year', label: 'Last 1 Year' },
+                { id: '3years', label: 'Last 3 Years' },
+                { id: '', label: 'Custom/All' }
+              ].map(filter => (
+                <button
+                  key={filter.id}
+                  className={`btn ${filters.quick_filter === filter.id ? 'btn-primary' : ''}`}
+                  style={{ 
+                    padding: '8px 16px', 
+                    fontSize: '0.85rem',
+                    background: filters.quick_filter === filter.id ? '' : 'rgba(255,255,255,0.05)',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.1)'
+                  }}
+                  onClick={() => {
+                    const newFilters = { ...filters, quick_filter: filter.id, from_date: '', to_date: '' };
+                    setFilters(newFilters);
+                    // Fetch immediately on quick filter click
+                    setTimeout(() => handleFetchReportsWithParams(newFilters), 0);
+                  }}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="form-group" style={{ flex: '1 1 400px' }}>

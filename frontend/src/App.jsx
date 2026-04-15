@@ -10,21 +10,25 @@ import ReportsPage from './pages/ReportsPage';
 import Login from './pages/Login';
 
 function App() {
-  // Simple auth check - in a real app, this would be managed via context
-  const isAuthenticated = true; // For demo purposes
+  // Simple auth check using localStorage
+  const isAuthenticated = localStorage.getItem('isLoggedIn') === 'true';
 
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       
       <Route element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/materials" element={<Materials />} />
         <Route path="/issue" element={<IssuePage />} />
-        <Route path="/inventory" element={<InventoryPage />} />
+        <Route path="/stock-inward" element={<InventoryPage />} />
         <Route path="/reports" element={<ReportsPage />} />
       </Route>
+
+      {/* Fallback for undefined routes */}
+      <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
     </Routes>
   );
 }

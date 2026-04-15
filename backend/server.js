@@ -30,6 +30,22 @@ app.use('/api/issues', issueRoutes);
 app.use('/api/stock', stockRoutes);
 app.use('/api/reports', reportRoutes);
 
-app.listen(PORT, () => {
+// Seed Categories function
+const seedCategories = async () => {
+    try {
+        const db = require('./config/db');
+        const [rows] = await db.execute('SELECT COUNT(*) as count FROM categories');
+        if (rows[0].count === 0) {
+            console.log('Seeding initial categories...');
+            await db.execute('INSERT INTO categories (name) VALUES ("Cartridges"), ("Toners"), ("Stationaries")');
+            console.log('Categories seeded successfully.');
+        }
+    } catch (error) {
+        console.error('Error seeding categories:', error);
+    }
+};
+
+app.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
+    await seedCategories();
 });

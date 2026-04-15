@@ -3,11 +3,16 @@ import { Package, Lock, User } from 'lucide-react';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // In a real app, validate credentials
-    window.location.href = '/';
+    if (formData.username === 'admin' && formData.password === 'admin123') {
+      localStorage.setItem('isLoggedIn', 'true');
+      window.location.href = '/dashboard';
+    } else {
+      setError('Invalid username or password');
+    }
   };
 
   return (
@@ -33,7 +38,21 @@ const Login = () => {
         </div>
         
         <h1 style={{ marginBottom: '0.5rem' }}>Admin Portal</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Sub-Store Management System</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>Sub-Store Management System</p>
+
+        {error && (
+          <div style={{ 
+            background: 'rgba(239, 68, 68, 0.1)', 
+            color: '#ef4444', 
+            padding: '10px', 
+            borderRadius: '8px', 
+            marginBottom: '1rem',
+            fontSize: '0.85rem',
+            border: '1px solid rgba(239, 68, 68, 0.2)'
+          }}>
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group" style={{ textAlign: 'left' }}>
