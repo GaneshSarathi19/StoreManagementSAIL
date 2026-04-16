@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Package, Lock, User } from 'lucide-react';
+import { Lock, User } from 'lucide-react';
+import logoImage from '../assets/logo.svg';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -25,16 +26,14 @@ const Login = () => {
     }}>
       <div className="glass-card fade-in" style={{ padding: '3rem', width: '400px', textAlign: 'center' }}>
         <div style={{ 
-          background: 'var(--secondary)', 
-          width: '60px', 
-          height: '60px', 
-          borderRadius: '15px', 
+          width: '80px', 
+          height: '80px', 
           margin: '0 auto 1.5rem', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center' 
         }}>
-          <Package size={32} color="#fff" />
+          <img src={logoImage} alt="SAIL Store Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         
         <h1 style={{ marginBottom: '0.5rem' }}>Admin Portal</h1>

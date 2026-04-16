@@ -79,7 +79,7 @@ const Dashboard = () => {
               style={{ 
                 padding: '1.5rem', 
                 textDecoration: 'none', 
-                color: '#fff',
+                color: 'var(--text-main)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -199,10 +199,10 @@ const Dashboard = () => {
             <Link to="/issue" className="btn btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
               <ArrowRight size={18} /> Issue New Item
             </Link>
-            <Link to="/stock-inward" className="btn" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', textDecoration: 'none', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Link to="/stock-inward" className="btn" style={{ background: '#f0f0f0', color: 'var(--text-main)', textDecoration: 'none', justifyContent: 'center', border: '1px solid var(--border)' }}>
               <Package size={18} /> Add Stock
             </Link>
-            <Link to="/materials" className="btn" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', textDecoration: 'none', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Link to="/materials" className="btn" style={{ background: '#f0f0f0', color: 'var(--text-main)', textDecoration: 'none', justifyContent: 'center', border: '1px solid var(--border)' }}>
               <PlusCircle size={18} /> Manage Inventory
             </Link>
           </div>

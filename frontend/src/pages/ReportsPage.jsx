@@ -14,6 +14,7 @@ const ReportsPage = () => {
   const [reportType, setReportType] = useState('issued'); // 'issued' or 'stock'
   const [reports, setReports] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
@@ -27,7 +28,22 @@ const ReportsPage = () => {
   });
 
   useEffect(() => {
-    axios.get('/api/categories').then(res => setCategories(res.data));
+    const fetchInitialData = async () => {
+      try {
+        const [catRes, issuesRes] = await Promise.all([
+          axios.get('/api/categories'),
+          axios.get('/api/issues')
+        ]);
+        setCategories(catRes.data);
+        
+        // Extract unique departments from issued items
+        const uniqueDepts = [...new Set(issuesRes.data.map(i => i.department).filter(d => d))];
+        setDepartments(uniqueDepts);
+      } catch (err) {
+        console.error('Error loading initial data:', err);
+      }
+    };
+    fetchInitialData();
     handleFetchReports();
   }, []);
 
@@ -87,14 +103,22 @@ const ReportsPage = () => {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button 
                 className={`btn ${reportType === 'issued' ? 'btn-primary' : ''}`} 
-                style={{ flex: 1, background: reportType === 'issued' ? '' : 'rgba(255,255,255,0.05)', color: '#fff' }}
+                style={{ 
+                  flex: 1, 
+                  background: reportType === 'issued' ? '' : '#f0f0f0', 
+                  color: reportType === 'issued' ? '#ffffff' : 'var(--text-main)' 
+                }}
                 onClick={() => setReportType('issued')}
               >
                 Issued Items
               </button>
               <button 
                 className={`btn ${reportType === 'stock' ? 'btn-primary' : ''}`} 
-                style={{ flex: 1, background: reportType === 'stock' ? '' : 'rgba(255,255,255,0.05)', color: '#fff' }}
+                style={{ 
+                  flex: 1, 
+                  background: reportType === 'stock' ? '' : '#f0f0f0', 
+                  color: reportType === 'stock' ? '#ffffff' : 'var(--text-main)' 
+                }}
                 onClick={() => setReportType('stock')}
               >
                 Stock Inward
@@ -121,9 +145,9 @@ const ReportsPage = () => {
                   style={{ 
                     padding: '8px 16px', 
                     fontSize: '0.85rem',
-                    background: filters.quick_filter === filter.id ? '' : 'rgba(255,255,255,0.05)',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    background: filters.quick_filter === filter.id ? '' : '#f0f0f0',
+                    color: filters.quick_filter === filter.id ? '#ffffff' : 'var(--text-main)',
+                    border: '1px solid var(--border)'
                   }}
                   onClick={() => {
                     const newFilters = { ...filters, quick_filter: filter.id, from_date: '', to_date: '' };
@@ -168,7 +192,10 @@ const ReportsPage = () => {
               </div>
               <div className="form-group">
                 <label>Department</label>
-                <input placeholder="Dept" value={filters.department} onChange={(e) => setFilters({...filters, department: e.target.value})} />
+                <select value={filters.department} onChange={(e) => setFilters({...filters, department: e.target.value})}>
+                  <option value="">All Departments</option>
+                  {departments.map(dept => <option key={dept} value={dept}>{dept}</option>)}
+                </select>
               </div>
             </>
           )}

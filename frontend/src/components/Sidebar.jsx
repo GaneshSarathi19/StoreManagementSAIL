@@ -8,6 +8,7 @@ import {
   FileText, 
   LogOut 
 } from 'lucide-react';
+import logoImage from '../assets/logo.svg';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -29,8 +30,17 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <div style={{ background: 'var(--secondary)', padding: '8px', borderRadius: '8px', display: 'flex' }}>
-          <Package color="#fff" size={24} />
+        <img 
+          src={logoImage}
+          alt="SAIL Store Logo" 
+          className="logo-image" 
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextElementSibling.style.display = 'block';
+          }}
+        />
+        <div className="logo-fallback" style={{ background: 'var(--primary)', padding: '8px', borderRadius: '8px' }}>
+          <Package color="#000000" size={24} />
         </div>
         <span>SAIL Store</span>
       </div>

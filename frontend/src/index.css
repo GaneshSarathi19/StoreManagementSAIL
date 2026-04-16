@@ -1,17 +1,17 @@
 :root {
-  --primary: #0056b3;
-  --primary-light: #e6f0ff;
-  --secondary: #00d2ff;
-  --accent: #3a1c71;
-  --bg-dark: #0f172a;
-  --bg-card: rgba(255, 255, 255, 0.8);
-  --glass: rgba(255, 255, 255, 0.1);
-  --text-main: #1e293b;
-  --text-muted: #64748b;
+  --primary: #000080;
+  --primary-light: #0000CD;
+  --secondary: #000080;
+  --accent: #000080;
+  --bg-dark: #ffffff;
+  --bg-card: #ffffff;
+  --glass: #ffffff;
+  --text-main: #000000;
+  --text-muted: #333333;
   --danger: #ef4444;
   --warning: #f59e0b;
   --success: #10b981;
-  --border: #e2e8f0;
+  --border: #cccccc;
   --sidebar-width: 260px;
   --header-height: 70px;
   --radius: 12px;
@@ -27,7 +27,7 @@
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg-dark);
-  color: #fff;
+  color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -37,17 +37,7 @@ h1, h2, h3, h4 {
 }
 
 /* Background Animation */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 0% 0%, #1e3a8a 0%, transparent 50%),
-              radial-gradient(circle at 100% 100%, #1e1b4b 0%, transparent 50%);
-  z-index: -1;
-}
+/* Removed for simple white and dark blue theme */
 
 .app-container {
   display: flex;
@@ -56,12 +46,10 @@ body::before {
 
 /* Glass Card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: var(--shadow);
 }
 
 /* Sidebar */
@@ -71,9 +59,8 @@ body::before {
   position: fixed;
   left: 0;
   top: 0;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border-right: 1px solid var(--border);
   padding: 2rem 1.5rem;
   z-index: 1000;
   transition: transform 0.3s ease;
@@ -82,11 +69,23 @@ body::before {
 .sidebar-logo {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--secondary);
+  color: var(--text-main);
   margin-bottom: 3rem;
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.logo-image {
+  max-width: 40px;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.logo-fallback {
+  display: none;
 }
 
 .nav-links {
@@ -102,19 +101,19 @@ body::before {
   align-items: center;
   gap: 12px;
   padding: 0.8rem 1rem;
-  color: #cbd5e1;
+  color: var(--text-main);
   text-decoration: none;
   border-radius: var(--radius);
   transition: all 0.2s ease;
 }
 
 .nav-link:hover, .nav-link.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: #f0f0f0;
+  color: var(--text-main);
 }
 
 .nav-link.active {
-  border-left: 4px solid var(--secondary);
+  border-left: 4px solid var(--primary);
 }
 
 /* Main Content */
@@ -147,18 +146,19 @@ table {
 th {
   text-align: left;
   padding: 1rem;
-  color: var(--text-muted);
+  color: var(--text-main);
   font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border);
 }
 
 td {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
 }
 
 tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: #f9f9f9;
 }
 
 /* Forms */
@@ -176,17 +176,17 @@ label {
 input, select, textarea {
   width: 100%;
   padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  color: #fff;
+  color: var(--text-main);
   outline: none;
   transition: all 0.3s ease;
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: var(--secondary);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary);
+  background: #ffffff;
 }
 
 /* Buttons */
@@ -203,12 +203,12 @@ input:focus, select:focus, textarea:focus {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff;
+  background: var(--primary);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  filter: brightness(1.1);
+  background: var(--primary-light);
   transform: translateY(-2px);
 }
 

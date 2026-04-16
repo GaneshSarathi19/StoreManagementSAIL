@@ -9,6 +9,7 @@ const IssuePage = () => {
   const [allMaterials, setAllMaterials] = useState([]);
   const [filteredMaterials, setFilteredMaterials] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [departments, setDepartments] = useState([]);
   
   const [formData, setFormData] = useState({
     material_id: '',
@@ -27,12 +28,17 @@ const IssuePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [catRes, matRes] = await Promise.all([
+        const [catRes, matRes, issuesRes] = await Promise.all([
           axios.get('/api/categories'),
-          axios.get('/api/materials')
+          axios.get('/api/materials'),
+          axios.get('/api/issues')
         ]);
         setCategories(catRes.data);
         setAllMaterials(matRes.data);
+        
+        // Extract unique departments from issued items
+        const uniqueDepts = [...new Set(issuesRes.data.map(i => i.department).filter(d => d))];
+        setDepartments(uniqueDepts);
         
         // Handle pre-selected category from URL
         const queryParams = new URLSearchParams(location.search);
@@ -267,12 +273,15 @@ const IssuePage = () => {
             </div>
             <div className="form-group">
               <label>Department</label>
-              <input 
+              <select 
                 required
-                placeholder="Department"
                 value={formData.department}
                 onChange={(e) => setFormData({...formData, department: e.target.value})}
-              />
+              >
+                <option value="">-- Select Department --</option>
+                {departments.map(dept => <option key={dept} value={dept}>{dept}</option>)}
+                <option value="" disabled style={{borderTop: '1px solid #ccc'}}>Add New</option>
+              </select>
             </div>
           </div>
 

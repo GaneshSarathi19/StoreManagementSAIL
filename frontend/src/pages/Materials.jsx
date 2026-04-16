@@ -169,10 +169,10 @@ const Materials = () => {
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', 
           background: 'rgba(0,0,0,0.8)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' 
         }}>
-          <div className="glass-card fade-in" style={{ width: '600px', padding: '2rem', background: '#1e293b' }}>
+          <div className="glass-card fade-in" style={{ width: '600px', padding: '2rem', background: '#ffffff' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
               <h2>{editingMaterial ? 'Edit Material' : 'Add New Material'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: '#fff' }}><X /></button>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'var(--text-main)' }}><X /></button>
             </div>
             <form onSubmit={handleSave}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
@@ -209,7 +209,7 @@ const Materials = () => {
                 <textarea rows="3" value={formData.other_details} onChange={e => setFormData({...formData, other_details: e.target.value})}></textarea>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                <button type="button" className="btn" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff' }} onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="button" className="btn" style={{ background: '#f0f0f0', color: 'var(--text-main)' }} onClick={() => setShowModal(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary">Save Material</button>
               </div>
             </form>
